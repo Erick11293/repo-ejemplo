@@ -1,0 +1,29 @@
+version: "3.3"
+
+services:
+  opt:
+    container_name: ejemplo
+    image: jupyter/datascience-notebook
+    command: start-notebook.sh --NotebookApp.token='' --NotebookApp.password=''
+    volumes:
+      - type: bind
+        source: ./data # ruta en host
+        target: /home/jovyan/data
+      - type: bind
+        source: ./notebooks # ruta en host
+        target: /home/jovyan/notebooks
+      - type: bind
+        source: ./src # ruta en host
+        target: /home/jovyan/src
+    deploy:
+      resources:
+        limits:
+          cpus: "10.0"
+          memory: "10g"
+        reservations:
+          cpus: "2.0"
+          memory: "4g"
+    environment:
+      - JUPYTER_TOKEN=
+    ports:
+      - 8888:8888
